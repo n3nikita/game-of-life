@@ -1,0 +1,22 @@
+body {
+    background-color: gray;
+}
+
+.table-game tr {
+    height: 3px;
+    margin: 0;
+    padding: 0;
+}
+
+.table-game tr td {
+    width: 10px;
+    height: 10px;
+    border: 0.5px solid gray;
+    margin: 0;
+    padding: 0;
+}
+
+.active {
+    background-color: darkgoldenrod;
+}
+
