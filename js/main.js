@@ -1,32 +1,43 @@
 var matrix = [],
     makeActive = [],
-    height = 50,
-    width = 50;
+    height,
+    width;
 
 
-//creating table
-$("#btnCreate").click(function () {
+$(document).ready(function () {
+    //creating table
+    $("#btnCreate").click(function () {
+        matrix = [];
+        $(".table-game").html("");
 
-    for (var i = 0; i < height; i++){
-        matrix[i] = [];
-        matrixTr = $("<tr>").appendTo(".table-game");
-
-        for (var j = 0; j < width; j++){
-            matrix[i][j] = $("<td>").appendTo(matrixTr);
+        if ($("input").val() != null ){
+            height = width = $("input").val();
+        } else {
+            height = width = 156;
         }
-    }
 
-    $(".table-game").css("width", width*10).css("height", height*10);
-    $("#btnStart").prop('disabled', false);
+        for (var i = 0; i < height; i++){
+            matrix[i] = [];
+            matrixTr = $("<tr>").appendTo(".table-game");
+
+            for (var j = 0; j < width; j++){
+                matrix[i][j] = $("<td>").appendTo(matrixTr);
+            }
+        }
+
+        $(".table-game").css("width", width*10).css("height", height*10);
+        $("#btnStart").prop('disabled', false);
+        $("#btnStep").prop('disabled', false);
+    });
 });
+
 
 //making cell alive by clicking
 $(".table-game").on("click", "td", function () {
    $(this).toggleClass("active");
 });
 
-//TODO: write some code here
-$("#btnStart").click(function () {
+$("#btnStep").click(function () {
     checkCell();
 });
 
@@ -34,12 +45,11 @@ function checkCell(){
     makeActive=[];
     for(var i = 1; i < width-1; i++){
         for(var j = 1; j < height-1; j++){
-
             checkNeighborhood(i,j);
         }
     }
 
-    for(var k = 0; i < makeActive.length; k++){
+    for(var k = 0; k < makeActive.length; k++){
         changeCell(makeActive[k]);
     }
 }

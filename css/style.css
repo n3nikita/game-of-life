@@ -2,6 +2,20 @@ body {
     background-color: gray;
 }
 
+
+.settings{
+    width: 300px;
+    margin: 5px auto;
+}
+
+.settings input {
+    width: 50px;
+}
+
+.table-game {
+    margin: 0 auto;
+}
+
 .table-game tr {
     height: 3px;
     margin: 0;
