@@ -1,50 +1,61 @@
+// Add pause
+// Add clear button
+// Update colors
+// Fix bug with arrays
+// Fix bug with speed
+// Add settings objects
+
 var matrix = [],
     makeActive = [],
-    height,
-    width;
+    size = 80,
+    width = 130, height = 70,
+    gameInterval, pause = true;
 
 
 $(document).ready(function () {
-    //creating table
-    $("#btnCreate").click(function () {
-        matrix = [];
-        $(".table-game").html("");
+    matrix = [];
+    $('.table-game').html('');
 
-        if ($("input").val() != null ){
-            height = width = $("input").val();
-        } else {
-            height = width = 156;
+    for (var i = 0; i < height; i++) {
+        matrix[i] = [];
+        matrixTr = $('<tr>').appendTo('.table-game');
+
+        for (var j = 0; j < width; j++) {
+            matrix[i][j] = $('<td>').appendTo(matrixTr);
         }
+    }
 
-        for (var i = 0; i < height; i++){
-            matrix[i] = [];
-            matrixTr = $("<tr>").appendTo(".table-game");
-
-            for (var j = 0; j < width; j++){
-                matrix[i][j] = $("<td>").appendTo(matrixTr);
-            }
-        }
-
-        $(".table-game").css("width", width*10).css("height", height*10);
-        $("#btnStart").prop('disabled', false);
-        $("#btnStep").prop('disabled', false);
-    });
+    $('.table-game').css('width', width * 15).css('height', height * 15);
 });
 
+
+var isDown = false;   
+
+$(document).mousedown(function() {
+  isDown = true;      
+})
+.mouseup(function() {
+  isDown = false;    
+});
 
 //making cell alive by clicking
-$(".table-game").on("click", "td", function () {
-   $(this).toggleClass("active");
+$('.table-game').on('mouseover', 'td', function () {
+    if(isDown)
+        $(this).toggleClass('active');
+}).on('click', 'td', function () {
+    $(this).toggleClass('active');
 });
 
-$("#btnStep").click(function () {
-    checkCell();
+$('html').keypress(function(e){
+    if (e.keyCode == 0 || e.keyCode == 32) {
+        gameInterval = setInterval(() => checkCell(), 1000 / 5);
+    } 
 });
 
 function checkCell(){
     makeActive=[];
-    for(var i = 1; i < width-1; i++){
-        for(var j = 1; j < height-1; j++){
+    for(var i = 1; i < height - 1; i++){
+        for(var j = 1; j < width - 1; j++){
             checkNeighborhood(i,j);
         }
     }
@@ -56,12 +67,12 @@ function checkCell(){
 
 //check alive
 function alive(cell){
-    return cell.hasClass("active");
+    return cell.hasClass('active');
 }
 
 //change
 function changeCell(cell){
-    cell.toggleClass("active");
+    cell.toggleClass('active');
 }
 
 function checkNeighborhood(i,j){
@@ -107,8 +118,6 @@ function checkNeighborhood(i,j){
     if(alive(matrix[i-1][j+1])) {
         counter++;
     }
-
-
 
     if (counter == 3 && !alive(cell)){
         makeActive.push(cell);
