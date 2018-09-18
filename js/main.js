@@ -1,15 +1,14 @@
-// Add pause
 // Add clear button
-// Update colors
 // Fix bug with arrays
 // Fix bug with speed
 // Add settings objects
+// Add generation counter
 
 var matrix = [],
     makeActive = [],
     size = 80,
     width = 130, height = 70,
-    gameInterval, pause = true;
+    gameInterval, isStarted = false;
 
 
 $(document).ready(function () {
@@ -25,18 +24,20 @@ $(document).ready(function () {
         }
     }
 
-    $('.table-game').css('width', width * 15).css('height', height * 15);
+    $('.table-game').css({
+        width: width * 15,
+        height: height * 15
+    });
 });
 
 
 var isDown = false;   
-
 $(document).mousedown(function() {
   isDown = true;      
-})
-.mouseup(function() {
+}).mouseup(function() {
   isDown = false;    
 });
+
 
 //making cell alive by clicking
 $('.table-game').on('mouseover', 'td', function () {
@@ -48,7 +49,14 @@ $('.table-game').on('mouseover', 'td', function () {
 
 $('html').keypress(function(e){
     if (e.keyCode == 0 || e.keyCode == 32) {
+        if(isStarted){
+            clearInterval(gameInterval);
+            isStarted = false;
+            return;
+        }
+
         gameInterval = setInterval(() => checkCell(), 1000 / 5);
+        isStarted = true;
     } 
 });
 

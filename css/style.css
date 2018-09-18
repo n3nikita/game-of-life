@@ -4,7 +4,8 @@
 }
 
 body {
-    background-color: black;
+    /* background-color: #222222; */
+    background-color: white;
     height: 100vh;
 }
 
@@ -27,7 +28,7 @@ body {
 .table-game {
     margin: 0 auto;
     border-collapse: collapse;
-    border: 1px solid white;
+    border: 1px solid #7C7C7C;
 }
 
 .table-game tr {
@@ -36,12 +37,13 @@ body {
 }
 
 .table-game tr td {
-    border: 1px solid white;
+    border: 1px solid #7C7C7C;
     margin: 0;
     padding: 0;
 }
 
 .active {
-    background-color: red;
+    /* background-color: #F91D1D; */
+    background-color: black;
 }
 
