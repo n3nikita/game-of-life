@@ -6,8 +6,8 @@
 
 var matrix = [],
     makeActive = [],
-    size = 80,
-    width = 130, height = 70,
+    width = Math.round(document.body.clientWidth / 20), 
+    height = Math.round(document.body.clientHeight / 20),
     gameInterval, isStarted = false;
 
 
@@ -31,20 +31,39 @@ $(document).ready(function () {
 });
 
 
-var isDown = false;   
-$(document).mousedown(function() {
-  isDown = true;      
+var isDown = false, isRight = false, isLeft = false;
+$(document).mousedown(function(e) {
+    isDown = true;  
+
+    switch (e.which){
+        case 1: 
+            isLeft = true;
+            isRight = false;
+            break;
+        case 3:
+            console.log('right mouse down');
+            isRight = true;
+            isLeft = false;
+            break;
+    }
 }).mouseup(function() {
-  isDown = false;    
+    isDown = isRight = isLeft = false;    
 });
 
 
 //making cell alive by clicking
 $('.table-game').on('mouseover', 'td', function () {
-    if(isDown)
-        $(this).toggleClass('active');
+    if(isDown){
+        if(isLeft)
+            $(this).addClass('active');
+        
+        if(isRight)
+            $(this).removeClass('active');
+    }
 }).on('click', 'td', function () {
     $(this).toggleClass('active');
+}).on('contextmenu', function(){
+    return false;
 });
 
 $('html').keypress(function(e){
