@@ -1,6 +1,5 @@
 // Add clear button
 // Fix bug with arrays
-// Fix bug with speed
 // Add settings objects
 // Add generation counter
 
@@ -30,7 +29,7 @@ $(document).ready(function () {
     });
 });
 
-
+// draw
 var isDown = false, isRight = false, isLeft = false;
 $(document).mousedown(function(e) {
     isDown = true;  
@@ -41,7 +40,6 @@ $(document).mousedown(function(e) {
             isRight = false;
             break;
         case 3:
-            console.log('right mouse down');
             isRight = true;
             isLeft = false;
             break;
@@ -66,6 +64,7 @@ $('.table-game').on('mouseover', 'td', function () {
     return false;
 });
 
+// start/pause on space
 $('html').keypress(function(e){
     if (e.keyCode == 0 || e.keyCode == 32) {
         if(isStarted){
@@ -83,7 +82,7 @@ function checkCell(){
     makeActive=[];
     for(var i = 1; i < height - 1; i++){
         for(var j = 1; j < width - 1; j++){
-            checkNeighborhood(i,j);
+            checkNeighbors(i,j);
         }
     }
 
@@ -102,49 +101,21 @@ function changeCell(cell){
     cell.toggleClass('active');
 }
 
-function checkNeighborhood(i,j){
+function checkNeighbors(x,y){
     var counter = 0;
-    var cell = matrix[i][j];
+    var cell = matrix[x][y];
 
-    //left
-    if(alive(matrix[i][j-1])) {
-        counter++;
+    for(var i = -1; i < 2; i++){
+        for(var j = -1; j < 2; j++){
+            if(alive(matrix[x + i][y + j])){
+                counter++;
+            }
+        }
     }
 
-    //right
-    if(alive(matrix[i][j+1])) {
-        counter++;
-    }
+    if(alive(cell))
+        counter--;
 
-    //down
-    if(alive(matrix[i-1][j])) {
-        counter++;
-    }
-
-    //up
-    if(alive(matrix[i+1][j])) {
-        counter++;
-    }
-
-    //down_left
-    if(alive(matrix[i+1][j-1])) {
-        counter++;
-    }
-
-    //down_right
-    if(alive(matrix[i+1][j+1])) {
-        counter++;
-    }
-
-    //up_left
-    if(alive(matrix[i-1][j-1])) {
-        counter++;
-    }
-
-    //up_right
-    if(alive(matrix[i-1][j+1])) {
-        counter++;
-    }
 
     if (counter == 3 && !alive(cell)){
         makeActive.push(cell);
