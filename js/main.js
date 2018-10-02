@@ -1,4 +1,3 @@
-// Add clear button
 // Fix bug with arrays
 // Add settings objects
 // Add generation counter
@@ -26,6 +25,10 @@ $(document).ready(function () {
     $('.table-game').css({
         width: width * 15,
         height: height * 15
+    });
+
+    $('#clear').on('click', function(){
+        $('.table-game tr td').removeClass('active');
     });
 });
 
@@ -64,19 +67,29 @@ $('.table-game').on('mouseover', 'td', function () {
     return false;
 });
 
+function initGame(){
+    if(isStarted){
+        clearInterval(gameInterval);
+        isStarted = false;
+        $('#play').text('Play');
+        return;
+    }
+
+    gameInterval = setInterval(() => checkCell(), 1000 / 5);
+    isStarted = true;
+    $('#play').text('Pause');    
+}
+
 // start/pause on space
 $('html').keypress(function(e){
-    if (e.keyCode == 0 || e.keyCode == 32) {
-        if(isStarted){
-            clearInterval(gameInterval);
-            isStarted = false;
-            return;
-        }
-
-        gameInterval = setInterval(() => checkCell(), 1000 / 5);
-        isStarted = true;
+    if (e.keyCode == 0 || e.keyCode == 38) {
+        initGame();
     } 
 });
+
+// $('#play').on('click', function(){
+//     initGame();
+// });
 
 function checkCell(){
     makeActive=[];
