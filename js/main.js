@@ -1,5 +1,3 @@
-// Fix bug with arrays
-
 var matrix = [],
     makeActive = [],
     gameInterval;
@@ -8,7 +6,8 @@ var game = {
     width: Math.round(document.body.clientWidth / 20), 
     height: Math.round(document.body.clientHeight / 20),
     isStarted: false,
-    generation: 0
+    generation: 0,
+    speed: 8
 };
 
 
@@ -80,7 +79,7 @@ function initGame(){
         return;
     }
 
-    gameInterval = setInterval(() => checkCell(), 1000 / 5);
+    gameInterval = setInterval(() => checkCell(), 1000 / game.speed);
     game.isStarted = true;
     $('#play').text('Pause');    
 }
@@ -98,8 +97,8 @@ $('#play').on('click', function(){
 
 function checkCell(){
     makeActive=[];
-    for(var i = 1; i < game.height - 1; i++){
-        for(var j = 1; j < game.width - 1; j++){
+    for(var i = 0; i < game.height; i++){
+        for(var j = 0; j < game.width; j++){
             checkNeighbors(i,j);
         }
     }
@@ -128,7 +127,10 @@ function checkNeighbors(x,y){
 
     for(var i = -1; i < 2; i++){
         for(var j = -1; j < 2; j++){
-            if(alive(matrix[x + i][y + j])){
+            var col = (x + i + game.height) % game.height;
+            var row = (y + j + game.width) % game.width;
+
+            if(alive(matrix[col][row])){
                 counter++;
             }
         }
