@@ -9,4 +9,4 @@ My implementation of popular game. You can find information about it [Wikipedia]
 3. Any live cell with more than three live neighbors dies, as if by overpopulation.
 4. Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
 
-###### You can try it online: https://mrbandaruk.github.io/GameOfLife/
+###### You can try it online: https://mrbandaruk.github.io/game-of-life/
