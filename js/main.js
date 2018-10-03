@@ -1,34 +1,39 @@
 // Fix bug with arrays
-// Add settings objects
-// Add generation counter
 
 var matrix = [],
     makeActive = [],
-    width = Math.round(document.body.clientWidth / 20), 
-    height = Math.round(document.body.clientHeight / 20),
-    gameInterval, isStarted = false;
+    gameInterval;
+
+var game = {
+    width: Math.round(document.body.clientWidth / 20), 
+    height: Math.round(document.body.clientHeight / 20),
+    isStarted: false,
+    generation: 0
+};
 
 
 $(document).ready(function () {
     matrix = [];
     $('.table-game').html('');
 
-    for (var i = 0; i < height; i++) {
+    for (var i = 0; i < game.height; i++) {
         matrix[i] = [];
         matrixTr = $('<tr>').appendTo('.table-game');
 
-        for (var j = 0; j < width; j++) {
+        for (var j = 0; j < game.width; j++) {
             matrix[i][j] = $('<td>').appendTo(matrixTr);
         }
     }
 
     $('.table-game').css({
-        width: width * 15,
-        height: height * 15
+        width: game.width * 15,
+        height: game.height * 15
     });
 
     $('#clear').on('click', function(){
         $('.table-game tr td').removeClass('active');
+        game.generation = 0;
+        $('#generation').text(0);
     });
 });
 
@@ -68,33 +73,33 @@ $('.table-game').on('mouseover', 'td', function () {
 });
 
 function initGame(){
-    if(isStarted){
+    if(game.isStarted){
         clearInterval(gameInterval);
-        isStarted = false;
+        game.isStarted = false;
         $('#play').text('Play');
         return;
     }
 
     gameInterval = setInterval(() => checkCell(), 1000 / 5);
-    isStarted = true;
+    game.isStarted = true;
     $('#play').text('Pause');    
 }
 
 // start/pause on space
-$('html').keypress(function(e){
-    if (e.keyCode == 0 || e.keyCode == 38) {
-        initGame();
-    } 
-});
-
-// $('#play').on('click', function(){
-//     initGame();
+// $('html').keypress(function(e){
+//     if (e.keyCode == 0 || e.keyCode == 38) {
+//         initGame();
+//     } 
 // });
+
+$('#play').on('click', function(){
+    initGame();
+});
 
 function checkCell(){
     makeActive=[];
-    for(var i = 1; i < height - 1; i++){
-        for(var j = 1; j < width - 1; j++){
+    for(var i = 1; i < game.height - 1; i++){
+        for(var j = 1; j < game.width - 1; j++){
             checkNeighbors(i,j);
         }
     }
@@ -102,6 +107,9 @@ function checkCell(){
     for(var k = 0; k < makeActive.length; k++){
         changeCell(makeActive[k]);
     }
+
+    game.generation++;
+    $('#generation').text(game.generation);
 }
 
 //check alive

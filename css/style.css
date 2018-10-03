@@ -61,3 +61,7 @@ body {
 .btn:active {
     box-shadow: 0px 2px 9px -5px #545454;
 }
+
+.gen-label {
+    margin-left: 20px;
+}
