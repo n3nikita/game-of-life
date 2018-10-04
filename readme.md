@@ -1,6 +1,6 @@
 ## Conway's game of life
 
-My implementation of popular game. You can find information about it [Wikipedia](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). Use Left Mouse Click to draw and Right Mouse Click to delete cells.
+My implementation of popular game. You can find information about it on [Wikipedia](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). Use Left Mouse Click to draw and Right Mouse Click to delete cells.
 
 ### Rules
 
